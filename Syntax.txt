@@ -1,0 +1,7 @@
+Normal date SELECT:
+SELECT * FROM `occupied` WHERE Start_Date= '2015-06-12'
+SELECT * FROM `occupied` WHERE End_Date='2015-06-15' 
+
+Alternative date SELECT:
+SELECT * FROM `occupied` WHERE Start_Date > '2015-06-10' AND End_Date < '2015-06-17'
+
