@@ -1,6 +1,6 @@
 <?php     
 //include connect.php page for database connection
-Include('connect.php')
+Include('connect.php');
 //if submit is not blanked i.e. it is clicked.
 If(isset($_REQUEST['submit'])!='')
 {
