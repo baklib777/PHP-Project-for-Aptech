@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2015 at 11:45 PM
+-- Generation Time: Apr 21, 2015 at 07:44 PM
 -- Server version: 5.6.21
 -- PHP Version: 5.5.19
 
@@ -23,26 +23,46 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `guest`
+--
+
+CREATE TABLE IF NOT EXISTS `guest` (
+`ID` bigint(20) unsigned NOT NULL,
+  `Name` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `Surname` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `Email` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `Mobile` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Address` varchar(40) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `Zip` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `City` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `Country` varchar(30) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `occupied`
 --
 
 CREATE TABLE IF NOT EXISTS `occupied` (
-`Room_ID` int(10) unsigned NOT NULL,
-  `Room_Type` int(10) unsigned DEFAULT NULL,
+`ID` bigint(20) unsigned NOT NULL,
+  `RoomID` int(10) unsigned NOT NULL,
   `Start_Date` date NOT NULL,
   `End_Date` date NOT NULL,
-  `Room_Number` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  `Room_Number` int(11) NOT NULL,
+  `GuestID` bigint(20) unsigned NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `occupied`
+-- Table structure for table `room`
 --
 
-INSERT INTO `occupied` (`Room_ID`, `Room_Type`, `Start_Date`, `End_Date`, `Room_Number`) VALUES
-(1, 1, '2015-06-01', '2015-06-05', 1),
-(2, 1, '2015-06-06', '2015-06-10', 1),
-(3, 1, '2015-06-12', '2015-06-15', 1),
-(4, 1, '2015-06-17', '2015-06-19', 1);
+CREATE TABLE IF NOT EXISTS `room` (
+`ID` int(10) unsigned NOT NULL,
+  `SuiteID` int(11) unsigned NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -51,15 +71,15 @@ INSERT INTO `occupied` (`Room_ID`, `Room_Type`, `Start_Date`, `End_Date`, `Room_
 --
 
 CREATE TABLE IF NOT EXISTS `suite` (
-`Room_ID` int(10) unsigned NOT NULL,
-  `Type` text
+`ID` int(10) unsigned NOT NULL,
+  `Suite` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `suite`
 --
 
-INSERT INTO `suite` (`Room_ID`, `Type`) VALUES
+INSERT INTO `suite` (`ID`, `Suite`) VALUES
 (1, 'Single'),
 (2, 'Double'),
 (3, 'VIP');
@@ -69,31 +89,53 @@ INSERT INTO `suite` (`Room_ID`, `Type`) VALUES
 --
 
 --
+-- Indexes for table `guest`
+--
+ALTER TABLE `guest`
+ ADD PRIMARY KEY (`ID`);
+
+--
 -- Indexes for table `occupied`
 --
 ALTER TABLE `occupied`
- ADD PRIMARY KEY (`Room_ID`), ADD KEY `Room_Type` (`Room_Type`);
+ ADD PRIMARY KEY (`ID`), ADD KEY `RoomID` (`RoomID`), ADD KEY `GuestID` (`GuestID`);
+
+--
+-- Indexes for table `room`
+--
+ALTER TABLE `room`
+ ADD PRIMARY KEY (`ID`), ADD KEY `SuiteID` (`SuiteID`);
 
 --
 -- Indexes for table `suite`
 --
 ALTER TABLE `suite`
- ADD PRIMARY KEY (`Room_ID`);
+ ADD PRIMARY KEY (`ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
+-- AUTO_INCREMENT for table `guest`
+--
+ALTER TABLE `guest`
+MODIFY `ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `occupied`
 --
 ALTER TABLE `occupied`
-MODIFY `Room_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `ID` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `room`
+--
+ALTER TABLE `room`
+MODIFY `ID` int(10) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `suite`
 --
 ALTER TABLE `suite`
-MODIFY `Room_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+MODIFY `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --
@@ -102,7 +144,14 @@ MODIFY `Room_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- Constraints for table `occupied`
 --
 ALTER TABLE `occupied`
-ADD CONSTRAINT `occupied_ibfk_1` FOREIGN KEY (`Room_Type`) REFERENCES `suite` (`Room_ID`);
+ADD CONSTRAINT `occupied_ibfk_1` FOREIGN KEY (`RoomID`) REFERENCES `room` (`ID`),
+ADD CONSTRAINT `occupied_ibfk_2` FOREIGN KEY (`GuestID`) REFERENCES `guest` (`ID`);
+
+--
+-- Constraints for table `room`
+--
+ALTER TABLE `room`
+ADD CONSTRAINT `room_ibfk_1` FOREIGN KEY (`SuiteID`) REFERENCES `suite` (`ID`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
