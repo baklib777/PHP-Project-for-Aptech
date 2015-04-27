@@ -7,3 +7,6 @@ SELECT * FROM `occupied` WHERE Start_Date > '2015-06-10' AND End_Date < '2015-06
 
 Rooms:
 INSERT INTO `hotel`.`room` (`ID`, `SuiteID`) VALUES (NULL, '1'), (NULL, '1'), (NULL, '1'), (NULL, '2'), (NULL, '2'), (NULL, '3'), (NULL, '2'), (NULL, '2'), (NULL, '1'), (NULL, '1'), (NULL, '2'), (NULL, '3'), (NULL, '1'), (NULL, '2'), (NULL, '1'), (NULL, '3'), (NULL, '2'), (NULL, '1'), (NULL, '1'), (NULL, '2'); 
+
+Room + Suite:
+SELECT room.ID, suite.suite FROM room INNER JOIN suite ON room.SuiteID = suite.ID ORDER BY `room`.`ID` ASC
