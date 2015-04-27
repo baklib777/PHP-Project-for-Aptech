@@ -10,3 +10,5 @@ INSERT INTO `hotel`.`room` (`ID`, `SuiteID`) VALUES (NULL, '1'), (NULL, '1'), (N
 
 Room + Suite:
 SELECT room.ID, suite.suite FROM room INNER JOIN suite ON room.SuiteID = suite.ID ORDER BY `room`.`ID` ASC
+
+5 Default users:
