@@ -1,14 +1,166 @@
 Normal date SELECT:
-SELECT * FROM `occupied` WHERE Start_Date= '2015-06-12'
-SELECT * FROM `occupied` WHERE End_Date='2015-06-15' 
+SELECT * FROM occupied WHERE Start_Date= '2015-06-12'
+SELECT * FROM occupied WHERE End_Date='2015-06-15' 
 
 Alternative date SELECT:
-SELECT * FROM `occupied` WHERE Start_Date > '2015-06-10' AND End_Date < '2015-06-17'
+SELECT * FROM 'occupied' WHERE Start_Date > '2015-06-10' AND End_Date < '2015-06-17'
+
+
+************************************************** HOTEL GUESTS BOOKING SYSTEM **************************************************
+
+
+======= Room Table =======
+
+CREATE TABLE IF NOT EXISTS 'room' 
+(
+
+'ID' int(10) unsigned NOT NULL,
+  
+'SuiteID' int(11) unsigned NOT NULL
+
+)
+
+ALTER TABLE 'room'
+ 
+ADD PRIMARY KEY ('ID'), ADD KEY 'SuiteID' ('SuiteID');
+
+ALTER TABLE 'room'
+
+MODIFY 'ID' int(10) unsigned NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE 'room'
+
+ADD CONSTRAINT 'room_ibfk_1' FOREIGN KEY ('SuiteID') REFERENCES 'suite' ('ID');
+
+
+
+======= Occupied Table ========
+
+CREATE TABLE IF NOT EXISTS 'occupied' 
+(
+
+'ID' bigint(20) unsigned NOT NULL,
+
+'RoomID' int(10) unsigned NOT NULL,
+ 
+'Start_Date' date NOT NULL,
+  
+'End_Date' date NOT NULL,
+  
+'GuestID' bigint(20) unsigned NOT NULL
+
+)
+
+
+ALTER TABLE 'occupied'
+ 
+ADD PRIMARY KEY ('ID'), ADD KEY 'RoomID' ('RoomID'), ADD KEY 'GuestID' ('GuestID');
+
+ALTER TABLE 'occupied'
+ 
+ADD CONSTRAINT 'occupied_ibfk_1' FOREIGN KEY ('RoomID') REFERENCES 'room' ('ID'),
+
+ADD CONSTRAINT 'occupied_ibfk_2' FOREIGN KEY ('GuestID') REFERENCES 'guest' ('ID');
+
+
+
+====== Suite Table =======
+
+CREATE TABLE IF NOT EXISTS 'suite' 
+(
+
+'ID' int(10) unsigned NOT NULL,
+  
+'Suite' varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
+
+);
+
+ALTER TABLE 'suite'
+ 
+ADD PRIMARY KEY ('ID');
+
+ALTER TABLE 'suite'
+
+MODIFY 'ID' int(10) unsigned NOT NULL AUTO_INCREMENT;
+
+
+======= Guest Table =======
+
+CREATE TABLE IF NOT EXISTS 'guest' 
+(
+
+'ID' bigint(20) unsigned NOT NULL,
+  
+'Name' varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  
+'Surname' varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  
+'Email' varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  
+'Mobile' varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  
+'Address' varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  
+'Zip' varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  
+'City' varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  
+'Country' varchar(30) COLLATE utf8_unicode_ci NOT NULL
+
+)
+
+ALTER TABLE 'guest'
+ 
+ADD PRIMARY KEY ('ID');
+
+ALTER TABLE 'guest'
+
+MODIFY 'ID' bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+
+
+============================================================
+
+
+Suites:
+INSERT INTO 'suite' ('ID', 'Suite') 
+VALUES
+
+(1, 'Single'),
+
+(2, 'Double'),
+
+(3, 'VIP');
 
 Rooms:
-INSERT INTO `hotel`.`room` (`ID`, `SuiteID`) VALUES (NULL, '1'), (NULL, '1'), (NULL, '1'), (NULL, '2'), (NULL, '2'), (NULL, '3'), (NULL, '2'), (NULL, '2'), (NULL, '1'), (NULL, '1'), (NULL, '2'), (NULL, '3'), (NULL, '1'), (NULL, '2'), (NULL, '1'), (NULL, '3'), (NULL, '2'), (NULL, '1'), (NULL, '1'), (NULL, '2'); 
+INSERT INTO 'hotel'.'room' 
+('ID', 'SuiteID') 
+VALUES 
+(NULL, '1'), (NULL, '1'), (NULL, '1'), (NULL, '2'), (NULL, '2'), (NULL, '3'), (NULL, '2'), (NULL, '2'), (NULL, '1'), (NULL, '1'), (NULL, '2'), (NULL, '3'), (NULL, '1'), (NULL, '2'), (NULL, '1'), (NULL, '3'), (NULL, '2'), (NULL, '1'), (NULL, '1'), (NULL, '2'); 
 
 Room + Suite:
-SELECT room.ID, suite.suite FROM room INNER JOIN suite ON room.SuiteID = suite.ID ORDER BY `room`.`ID` ASC
+SELECT room.ID, suite.suite FROM room INNER JOIN suite ON room.SuiteID = suite.ID
+
+5 Default occupied rooms
+INSERT INTO `hotel`.`occupied` 
+(`ID`, `RoomID`, `Start_Date`, `End_Date`, `GuestID`) 
+VALUES 
+(NULL, '7', '2015-06-01', '2015-06-08', '1'),
+(NULL, '1', '2015-06-07', '2015-06-16', '5'),
+(NULL, '6', '2015-06-01', '2015-06-30', '3'),
+(NULL, '20', '2015-06-24', '2015-06-30', '2'),
+(NULL, '13', '2015-06-14', '2015-06-22', '4');
 
 5 Default users:
+INSERT INTO 'hotel'.'guest' 
+('ID', 'Name', 'Surname', 'Email', 'Mobile', 'Address', 'Zip', 'City', 'Country') 
+VALUES 
+(NULL, 'Stefan', 'Kacer', 'skacer@guds.sk', '078 669 701', 'Dubravka 32', '432 12', 'Bratislava', 'Slovakia'), 
+(NULL, 'Milan', 'Gargulak', 'mgarg@yahoo.com', '778 665 123', 'Chickpeas 25', '323 88', 'Dallas', 'USA'), 
+(NULL,'Michaela', 'Stastna', 'mstastna@centrum.sk', '465 123 145', 'Trnavska 11', '123 458', 'LA', 'USA'), 
+(NULL, 'Lydia', 'Raytikova', 'lydray@post.eu', '114 687 324','Nosferatu 666', '123 465', 'Transillvania', 'Latvia'), 
+(NULL, 'Miroslav', 'Mirec', 'mmorpg@hellya.uk', '445 123 453', 'Fireball 342', '456 12', 'elfheim', 'Pandora');
+
+
+
+************************************************** RESTAURANT RESERVATION SYSTEM **************************************************
+
