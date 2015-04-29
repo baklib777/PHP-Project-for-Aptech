@@ -71,17 +71,35 @@ CREATE TABLE IF NOT EXISTS 'suite'
 
 'ID' int(10) unsigned NOT NULL,
   
-'Suite' varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL
+'Suite' varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 
-);
+) 
+
+
 
 ALTER TABLE 'suite'
- 
+
 ADD PRIMARY KEY ('ID');
+
+
 
 ALTER TABLE 'suite'
 
 MODIFY 'ID' int(10) unsigned NOT NULL AUTO_INCREMENT;
+
+
+
+INSERT INTO 'suite' ('ID', 'Suite') 
+VALUES
+(1, 'Economic single'),
+
+(2, 'Economic double'),
+
+(3, 'Luxary single'),
+
+(4, 'Luxary double'),
+
+(5, 'Family Apartment');
 
 
 ======= Guest Table =======
@@ -135,14 +153,14 @@ Rooms:
 INSERT INTO 'hotel'.'room' 
 ('ID', 'SuiteID') 
 VALUES 
-(NULL, '1'), (NULL, '1'), (NULL, '1'), (NULL, '2'), (NULL, '2'), (NULL, '3'), (NULL, '2'), (NULL, '2'), (NULL, '1'), (NULL, '1'), (NULL, '2'), (NULL, '3'), (NULL, '1'), (NULL, '2'), (NULL, '1'), (NULL, '3'), (NULL, '2'), (NULL, '1'), (NULL, '1'), (NULL, '2'); 
+(NULL, '1'), (NULL, '1'), (NULL, '1'), (NULL, '1'), (NULL, '2'), (NULL, '2'), (NULL, '2'), (NULL, '2'), (NULL, '3'), (NULL, '3'), (NULL, '3'), (NULL, '3'), (NULL, '4'), (NULL, '4'), (NULL, '4'), (NULL, '4'), (NULL, '5'), (NULL, '5'), (NULL, '5'), (NULL, '5'); 
 
 Room + Suite:
 SELECT room.ID, suite.suite FROM room INNER JOIN suite ON room.SuiteID = suite.ID
 
 5 Default occupied rooms
-INSERT INTO `hotel`.`occupied` 
-(`ID`, `RoomID`, `Start_Date`, `End_Date`, `GuestID`) 
+INSERT INTO 'hotel'.'occupied' 
+('ID', 'RoomID', 'Start_Date', 'End_Date', 'GuestID') 
 VALUES 
 (NULL, '7', '2015-06-01', '2015-06-08', '1'),
 (NULL, '1', '2015-06-07', '2015-06-16', '5'),
@@ -163,4 +181,32 @@ VALUES
 
 
 ************************************************** RESTAURANT RESERVATION SYSTEM **************************************************
+
+
+Reservations:
+CREATE TABLE IF NOT EXISTS 'reservations' 
+(
+ 
+ 'ID' int(11) NOT NULL,
+  
+'Table' int(11) NOT NULL,
+  
+'Seats' int(11) NOT NULL,
+  
+'Reserve_start' datetime NOT NULL,
+  
+'Reserve_End' datetime NOT NULL,
+  
+'Name' varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  
+'Surname' varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  
+'Phone' varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  
+'Email' varchar(50) COLLATE utf8_unicode_ci NOT NULL
+
+)
+
+ALTER TABLE 'reservations'
+ ADD PRIMARY KEY ('ID');
 
