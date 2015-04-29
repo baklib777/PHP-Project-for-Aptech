@@ -3,10 +3,10 @@ $hostname="localhost"; //local server name default localhost
 $username="root";  //mysql username default is root
 $password="";       //blank if no password is set for mysql
 $database="hotel";  //database name 
-$con=mysql_connect($hostname,$username,$password);
+$con=mysqli_connect($hostname,$username,$password,$database);
 if(! $con)
 {
-        die('Connection Failed'.mysql_error());
+        die('Connection Failed'.mysqli_error());
 }
-mysql_select_db($database,$con);	
+
 ?>
